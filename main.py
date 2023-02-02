@@ -31,7 +31,7 @@ def run_sim(args):
 
     # instantiate dynamics object
     quad_dynamics = QuadrotorDynamics1D(state, cfparams,
-                                        disturbance=sim_params.disturbance_flag)
+                                        disturbance=True)#sim_params.disturbance_flag)
 
     # instantiate controller object
     controller = Controller1D(cfparams, pid_gains)
