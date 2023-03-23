@@ -31,7 +31,7 @@ def run_sim(args):
 
     # instantiate dynamics object
     quad_dynamics = QuadrotorDynamics1D(state, cfparams,
-                                        disturbance=True)#sim_params.disturbance_flag)
+                                        disturbance=sim_params.disturbance_flag)
 
     # instantiate controller object
     controller = Controller1D(cfparams, pid_gains)
@@ -52,12 +52,16 @@ def run_sim(args):
     set_point.z_pos = 8.0
     set_point.z_vel = 0.0
 
+    last_z_pos_raw = 0
+
     while curr_time < sim_time:
 
         # ------------------SENSE ----------------------------------------
         if sim_params.state_estimation_flag:
             # read sensor data
             z_pos_raw = quad_dynamics.TOF_sensor()
+            z_vel, last_z_pos_raw = raw_vel(z_pos_raw, last_z_pos_raw, time_delta)
+            print("RAW VELOCITY: ", z_vel)
             # estimate state using kalman filter
             state = state_estimator.compute(z_pos_raw, thrust, time_delta)
         else:

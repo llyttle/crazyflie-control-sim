@@ -65,6 +65,13 @@ class SimulationParameters:
     show_animation_flag: bool = True
     sim_time: float = 10.0
 
+def raw_vel(pos, last_pos, time_delta):
+    vel = (pos-last_pos)/time_delta
+    
+    print("METRICs: ", pos, last_pos, vel)
+
+    return vel, pos
+
 
 def parse_args(args):
     """
